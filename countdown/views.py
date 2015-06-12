@@ -14,7 +14,7 @@ def index(request):
     #     else:
     #         return render(request, 'django_project/index.html')
     # except ObjectDoesNotExist:
-    return render(request, 'django_project/index.html')
+    return render(request, 'countdown/index.html')
 
 def login(request):
     username = request.POST['username']
@@ -24,16 +24,16 @@ def login(request):
         django.contrib.auth.login(request, user)
         return redirect('/home')
     else:
-        return render(request, 'django_project/index.html')
+        return render(request, 'countdown/index.html')
 
 def home(request):
     username = request.user
-    return render(request, 'django_project/home.html', {'username': username})
+    return render(request, 'countdown/home.html', {'username': username})
 
 #     print 'hello'
     # form = UserLoginForm(request)
     # form.authorize()
     # if form.isokay:
-    #     return render(request, 'django_project/home.html')
+    #     return render(request, 'countdown/home.html')
     # else:
     #     return 
