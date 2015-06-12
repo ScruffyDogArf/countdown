@@ -44,7 +44,8 @@ app.createNewCountdown = function() {
 
     var title = "test";
     var description = "test description";
-    var end_datetime = new Date();
+    var end_datetime = new Date().toISOString();
+    app.setupcsrf();
 
     $.ajax({
         type: "POST",
@@ -60,6 +61,36 @@ app.createNewCountdown = function() {
         }
     });
 };
+
+
+
+app.setupcsrf = function() {
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie != '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = jQuery.trim(cookies[i]);
+                        // Does this cookie string begin with the name we want?
+                        if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+            if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                // Only send the token to relative URLs i.e. locally.
+                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+            }
+        }
+    });
+};
+
+
 
 $( document ).ready(function() {
     app.initialize();
