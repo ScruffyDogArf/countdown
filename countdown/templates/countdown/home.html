@@ -18,7 +18,7 @@
 
     {% load staticfiles %}
     <link rel="stylesheet" href="{% static "countdown/css/style.css" %}">
-    <!--<link rel="stylesheet" href="css/style.css">-->
+    <link rel="stylesheet" href="{% static "countdown/css/pickmeup.min.css" %}">
     <!--<link rel="shortcut icon" content="favicon.ico">-->
 
     <!--webfonts-->
@@ -81,7 +81,7 @@
 
 
                 <div class="countdown countdown__empty">
-                    <img class="add-icon" src="{% static "countdown/img/image-1.png" %}" alt="image">
+                    <img class="add-icon" src="{% static "countdown/img/iconAdd.png" %}" alt="image">
                 </div>
 
             </div>
@@ -94,11 +94,15 @@
 
 <div class="modal__new-countdown">
     <div class="new-countdown-form__wrap">
-        <div class="new-countdown-form">
+        <div class="new-countdown-form__padding">
             <h1>Create Countdown</h1>
-            <form action="/api/countdowns/create" method="POST"> {% csrf_token %}
+            <form class="new-countdown-form" action="#" method="post"> {% csrf_token %}
                 <input type="text" class="text" name="countdown_name" placeholder="Countdown name">
-                <input type="text" class="text" name="countdown_date" placeholder="Date">
+                <input type="text" class="text new-countdown-date" name="countdown_date" placeholder="Date">
+                <input type="text" class="text new-countdown-time-hours" name="countdown_time_hours" placeholder="HH">
+                <input type="text" class="text new-countdown-time-mins" name="countdown_time_mins" placeholder="MM">
+                <input type="text" class="text new-countdown-time-seconds" name="countdown_time_seconds" placeholder="SS">
+
                 <div class="submit">
                     <input type="submit" value="submit">
                 </div>
@@ -117,12 +121,11 @@
 
 
 
-<script src="js/external/modernizr-latest.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="js/external/jquery-1.10.2.min.js"><\/script>')</script>
 
-<script src="{% static "django_project/js/main.js" %}"></script>
-<!--<script src="js/main.js"></script>-->
+<script src="{% static "countdown/js/jquery.pickmeup.min.js" %}"></script>
+<script src="{% static "countdown/js/main.js" %}"></script>
 
 
 </body>
