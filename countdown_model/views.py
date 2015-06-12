@@ -37,27 +37,27 @@ def get_countdowns(request):
 def create_countdown(request):
     response = {'status': None, 'error': None, 'response': None}
     username = request.user
-    post = request.GET # TODO:
+    method = request.POST
     try:
-        title = post['title']
+        title = method['title']
     except MultiValueDictKeyError:
         response['status'] = 400
-        response['error'] = 'Missing required argument: title'
+        response['error'] = 'Missing required argument: title' + '\nrequest:\n{}'.format(request)
         return HttpResponse(json.dumps(response), content_type='application/json')
     try:
-        brief_description = post['description']
+        brief_description = method['description']
     except MultiValueDictKeyError:
         response['status'] = 400
         response['error'] = 'Missing required argument: description'
         return HttpResponse(json.dumps(response), content_type='application/json')
     try:
-        end_datetime = datetime.datetime.strptime(post['end_datetime'], '%Y-%m-%dT%H:%M:%S.%fZ')
+        end_datetime = datetime.datetime.strptime(method['end_datetime'], '%Y-%m-%dT%H:%M:%S.%fZ')
     except MultiValueDictKeyError:
         response['status'] = 400
         response['error'] = 'Missing required argument: end_datetime'
         return HttpResponse(json.dumps(response), content_type='application/json')
     try:
-        image = post['image']
+        image = method['image']
     except MultiValueDictKeyError:
         image = None
     try:
@@ -93,9 +93,9 @@ def update_countdown(request):
         response['status'] = 400
         response['error'] = 'User does not exist: {}'.format(username)
         return HttpResponse(json.dumps(response), content_type='application/json')
-    post = request.GET # TODO: GET -> POST
+    method = request.POST
     try:
-        id_string = post['id_string']
+        id_string = method['id_string']
     except MultiValueDictKeyError:
         response['status'] = 400
         response['error'] = 'Missing required argument: id_string'
@@ -112,22 +112,22 @@ def update_countdown(request):
         return HttpResponse(json.dumps(response), content_type='application/json')
     else:
         try:
-            end_datetime = datetime.datetime.strptime(post['end_datetime'], '%Y-%m-%d-%H-%M-%S')
+            end_datetime = datetime.datetime.strptime(method['end_datetime'], '%Y-%m-%d-%H-%M-%S')
             countdown.end_datetime = end_datetime
         except MultiValueDictKeyError:
             pass
         try:
-            title = post['title']
+            title = method['title']
             countdown.title = title
         except MultiValueDictKeyError:
             pass
         try:
-            brief_description = post['description']
+            brief_description = method['description']
             countdown.brief_description = brief_description
         except MultiValueDictKeyError:
             pass
         try:
-            image = post['image']
+            image = method['image']
             countdown.image = image
         except MultiValueDictKeyError:
             pass
@@ -139,7 +139,6 @@ def update_countdown(request):
         x['end_datetime'] = countdown.end_datetime.isoformat() + 'Z'
         x['id_string'] = countdown.id_string
         response['response'] = x
-        # response['response'] = json.loads(serializers.serialize("json", [countdown]))[0]
     return HttpResponse(json.dumps(response), content_type="application/json")
 
 def delete_countdown(request):
@@ -152,7 +151,7 @@ def delete_countdown(request):
         response['error'] = 'User does not exist: {}'.format(username)
         return HttpResponse(json.dumps(response), content_type="application/json")
     try:
-        id_string = request.GET['id_string'] # TODO: change this to POST, using GET for testing
+        id_string = request.POST['id_string']
         countdown = Countdown.objects.get(id_string=id_string)
     except MultiValueDictKeyError:
         response['status'] = 400
