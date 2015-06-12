@@ -6,14 +6,6 @@ from django.http import HttpResponse
 
 def index(request):
     username = request.user
-    # try:
-    #     user = User.objects.get(username=username)
-    #     authenticated = user.authenticate()
-    #     if authenticated:
-    #         return render(request, 'django_project/home.html')
-    #     else:
-    #         return render(request, 'django_project/index.html')
-    # except ObjectDoesNotExist:
     return render(request, 'countdown/index.html')
 
 def login(request):
@@ -30,10 +22,3 @@ def home(request):
     username = request.user
     return render(request, 'countdown/home.html', {'username': username})
 
-#     print 'hello'
-    # form = UserLoginForm(request)
-    # form.authorize()
-    # if form.isokay:
-    #     return render(request, 'countdown/home.html')
-    # else:
-    #     return 

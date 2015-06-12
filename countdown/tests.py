@@ -18,4 +18,5 @@ class MainTestCase(TestCase):
         response = self.client.post('/login', {'username': 'dvoong', 'password': 'pbjell'})
         self.assertRedirects(response, '/home', status_code=302)
         self.assertNotIn('_auth_user_id', self.client.session)
-
+    def test_countdown_creation(self):
+        pass

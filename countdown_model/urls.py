@@ -14,13 +14,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
 from django.conf.urls import include, url
-from django.contrib import admin
+from django.conf import settings
+from django.conf.urls.static import static
 import views
 
 urlpatterns = [
-    url(r'^$', views.index),
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^api/', include('countdown_model.urls')),
-    url(r'^login$', views.login),
-    url(r'^home$', views.home),
+    # url(r'^$', views.index),
+    url('countdowns/countdowns.json', views.get_countdowns),
+    url('countdowns/create', views.create_countdown),
+    url('countdowns/update', views.update_countdown),
+    url('countdowns/delete', views.delete_countdown),
 ]
