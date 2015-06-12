@@ -17,7 +17,7 @@
 
 
     {% load staticfiles %}
-    <link rel="stylesheet" href="{% static "django_project/css/style.css" %}">
+    <link rel="stylesheet" href="{% static "countdown/css/style.css" %}">
     <!--<link rel="stylesheet" href="css/style.css">-->
     <!--<link rel="shortcut icon" content="favicon.ico">-->
 
@@ -60,7 +60,7 @@
             <div class="grid clear">
 
                 <div class="countdown">
-                    <img class="countdown__image" src="img/image-1.png" alt="image">
+                    <img class="countdown__image" src="{% static "countdown/img/image-1.png" %}" alt="image">
                     <div class="countdown__content">
 
                         <p class="countdown__time"><span class="days">2</span> days <span class="hours">13</span> hours <span class="minutes">45</span> minutes</p>
@@ -70,7 +70,7 @@
                 </div>
 
                 <div class="countdown">
-                    <img class="countdown__image" src="img/image-1.png" alt="image">
+                    <img class="countdown__image" src="{% static "countdown/img/image-1.png" %}" alt="image">
                     <div class="countdown__content">
 
                         <p class="countdown__time"><span class="days">2</span> days <span class="hours">13</span> hours <span class="minutes">45</span> minutes</p>
@@ -81,7 +81,7 @@
 
 
                 <div class="countdown countdown__empty">
-                    <img class="add-icon" src="img/iconAdd.png" alt="image">
+                    <img class="add-icon" src="{% static "countdown/img/image-1.png" %}" alt="image">
                 </div>
 
             </div>
