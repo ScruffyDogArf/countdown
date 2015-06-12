@@ -1,4 +1,4 @@
-"""countdown URL Configuration
+"""django_project URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/1.8/topics/http/urls/
@@ -15,7 +15,13 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+import views
+import countdown
 
 urlpatterns = [
+    url(r'^$', views.index),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^api/', include('countdown.urls')),
+    url(r'^login$', views.login),
+    url(r'^home$', views.home),
 ]

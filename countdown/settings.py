@@ -37,7 +37,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'countdown_model'
+    'countdown_model',
+    'countdown'
 )
 
 MIDDLEWARE_CLASSES = (
