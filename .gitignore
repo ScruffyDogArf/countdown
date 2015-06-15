@@ -1,5 +1,13 @@
+# Exclude Python byte code
 *.pyc
+
+# Emacs backup and autosave files
 *~
+\#*\#
+
+# Local media files
+media/
+db.sqlite3
 
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion
 

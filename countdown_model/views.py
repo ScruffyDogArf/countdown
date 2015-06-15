@@ -26,6 +26,10 @@ def get_countdowns(request):
             x['description'] = countdown.brief_description
             x['end_datetime'] = countdown.end_datetime.isoformat() + 'Z'
             x['id_string'] = countdown.id_string
+            try:
+                x['image'] = countdown.image.url
+            except ValueError:
+                x['image'] = None
             response2.append(x)
         response['response'] = response2
         response['status'] = 200
@@ -56,10 +60,10 @@ def create_countdown(request):
         response['status'] = 400
         response['error'] = 'Missing required argument: end_datetime'
         return HttpResponse(json.dumps(response), content_type='application/json')
-    try:
-        image = method['image']
-    except MultiValueDictKeyError:
-        image = None
+    # try:
+    #     image = method['image'] # TODO:
+    # except MultiValueDictKeyError:
+    #     image = None
     try:
         user = User.objects.get(username=username)
     except ObjectDoesNotExist:
@@ -71,7 +75,7 @@ def create_countdown(request):
     countdown.title = title
     countdown.brief_description = brief_description
     countdown.end_datetime = end_datetime
-    countdown.image = image
+    # countdown.image = image
     countdown.save()
     countdown.id_string = '{}'.format(countdown.id)
     countdown.id_string += ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10))
@@ -81,6 +85,10 @@ def create_countdown(request):
     response2['title'] = countdown.title
     response2['description'] = countdown.brief_description
     response2['end_datetime'] = countdown.end_datetime.isoformat() + 'Z'
+    try:
+        response2['image'] = countdown.image.url
+    except ValueError:
+        response2['image'] = None
     response['response'] = response2
     return HttpResponse(json.dumps(response), content_type="application/json")
 
@@ -126,11 +134,11 @@ def update_countdown(request):
             countdown.brief_description = brief_description
         except MultiValueDictKeyError:
             pass
-        try:
-            image = method['image']
-            countdown.image = image
-        except MultiValueDictKeyError:
-            pass
+        # try:
+        #     image = method['image']
+        #     countdown.image = image
+        # except MultiValueDictKeyError:
+        #     pass
         countdown.save()
         response['status'] = 200
         x = {} # countdown attributes to return
@@ -138,6 +146,10 @@ def update_countdown(request):
         x['description'] = countdown.brief_description
         x['end_datetime'] = countdown.end_datetime.isoformat() + 'Z'
         x['id_string'] = countdown.id_string
+        try:
+            x['image'] = countdown.image.url
+        except ValueError:
+            x['image'] = None
         response['response'] = x
     return HttpResponse(json.dumps(response), content_type="application/json")
 
