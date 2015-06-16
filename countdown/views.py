@@ -22,6 +22,15 @@ def login(request):
     else:
         return render(request, 'countdown/index.html')
 
+def logout(request):
+    username = request.user
+    try:
+        user = User.objects.get(username=username)
+    except ObjectDoesNotExist:
+        return redirect('/')
+    django.contrib.auth.logout(request)
+    return redirect('/')
+
 def home(request):
     username = request.user
     try:

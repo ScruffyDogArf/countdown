@@ -24,5 +24,6 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include('countdown_model.urls')),
     url(r'^login$', views.login),
+    url(r'^logout$', views.logout),
     url(r'^home$', views.home),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
