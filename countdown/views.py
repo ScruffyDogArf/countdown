@@ -26,5 +26,18 @@ def home(request):
     for countdown in countdowns:
         end_datetime = datetime.datetime.combine(countdown.end_date, countdown.end_time)
         countdown.time_remaining = end_datetime - datetime.datetime.now()
+        hours, remainder = divmod(countdown.time_remaining.seconds, 3600)
+        minutes, seconds = divmod(remainder, 60)
+        countdown.days = countdown.time_remaining.days
+        countdown.hours = hours
+        countdown.minutes = minutes
+        countdown.seconds = seconds
+        print countdown.time_remaining
+        print countdown.days
+        print countdown.hours
+        print countdown.minutes
+        print countdown.seconds
     return render(request, 'countdown/home.html', {'username': username, 'new_countdown_form': CountdownForm(), 'countdowns': countdowns})
 
+def days_hours_minutes(td):
+    return td.days, td.seconds//3600, (td.seconds//60)%60
