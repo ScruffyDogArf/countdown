@@ -101,32 +101,26 @@ app.initialize = function () {
 
     $('#new-countdown-form').on('submit',(function(e) {
         e.preventDefault();
-        app.createNewCountdown();
+        var formData = new FormData(this);
+
+        $.ajax({
+            type:'POST',
+            url: $(this).attr('action'),
+            data:formData,
+            cache:false,
+            contentType: false,
+            processData: false,
+            success:function(data){
+                console.log("success");
+                console.log(data);
+                app.createCountdownHTML(data);
+            },
+            error: function(data){
+                console.log("error");
+                console.log(data);
+            }
+        });
     }));
-};
-
-
-app.createNewCountdown = function() {
-
-    var formData = new FormData(this);
-
-    $.ajax({
-        type:'POST',
-        url: $(this).attr('action'),
-        data:formData,
-        cache:false,
-        contentType: false,
-        processData: false,
-        success:function(data){
-            console.log("success");
-            console.log(data);
-            app.createCountdownHTML(data);
-        },
-        error: function(data){
-            console.log("error");
-            console.log(data);
-        }
-    });
 };
 
 
@@ -141,7 +135,7 @@ app.createCountdownHTML = function(data) {
 
     var cd_image = document.createElement('img');
     cd_image.className = 'countdown__image';
-    cd_image.src = "/static/countdown/img/image-1.png";
+    cd_image.src = data.image;
     cd_div.appendChild(cd_image);
 
     var cd_content = document.createElement('div');
@@ -151,18 +145,52 @@ app.createCountdownHTML = function(data) {
 
     var cd_time = document.createElement('p');
     cd_time.className = 'countdown__time';
-    cd_time.innerHTML = '<span class="days">2</span> days <span class="hours">13</span> hours <span class="minutes">45</span> minutes';
+
+    var timeRemainingHTML = '';
+
+    if (data.days > 0) {
+        timeRemainingHTML += '<span class="days">'+ data.days +'</span> day';
+        if (data.days > 1) {
+            timeRemainingHTML += 's';
+        }
+        timeRemainingHTML += ' ';
+    }
+
+    if (data.hours > 0) {
+        timeRemainingHTML += '<span class="hours">'+ data.hours +'</span> hour';
+        if (data.hours > 1) {
+            timeRemainingHTML += 's';
+        }
+        timeRemainingHTML += ' ';
+    }
+
+    if (data.minutes > 0) {
+        timeRemainingHTML += '<span class="minutes">'+ data.minutes +'</span> minute';
+        if (data.minutes > 1) {
+            timeRemainingHTML += 's';
+        }
+        timeRemainingHTML += ' ';
+    }
+
+    if (data.seconds > 0) {
+        timeRemainingHTML += '<span class="seconds">'+ data.seconds +'</span> second';
+        if (data.seconds > 1) {
+            timeRemainingHTML += 's';
+        }
+    }
+
+    cd_time.innerHTML = timeRemainingHTML;
     cd_content.appendChild(cd_time);
 
 
     var cd_title = document.createElement('p');
     cd_title.className = 'countdown__title capitalize';
-    cd_title.innerHTML = "Dave's a dick";
+    cd_title.innerHTML = data.title;
     cd_content.appendChild(cd_title);
 
     var cd_desc = document.createElement('p');
     cd_desc.className = 'countdown__desc';
-    cd_desc.innerHTML = "Dipiscing lorem fells a ante. Proin consequat a justo sed ornare Vestibulum quis magna vel nunc vehicula mattis ld eget lorem";
+    cd_desc.innerHTML = data.brief_description;
     cd_content.appendChild(cd_desc);
 
     $('.grid').get(0).insertBefore(cd_div, $('.countdown__empty').get(0));
