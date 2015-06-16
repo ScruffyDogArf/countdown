@@ -28,7 +28,8 @@ app.initialize = function () {
 
     $('#id_end_date').pickmeup({
         flat    : false,
-        min     : dd+'-'+mm+'-'+yyyy
+        min     : dd+'-'+mm+'-'+yyyy,
+        format  : 'Y-m-d'
     });
 
     $('.submit input').on('click', function() {
