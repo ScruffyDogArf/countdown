@@ -229,6 +229,13 @@ input[type="submit"]:hover{
 }
 
 
+.list__item
+{
+    opacity: 0;
+    -webkit-transition: opacity .5s linear;
+    transition: opacity .5s linear;
+}
+
 .countdown {
     position: relative;
     float: left;

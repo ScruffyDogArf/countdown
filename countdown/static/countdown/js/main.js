@@ -99,62 +99,62 @@ app.initialize = function () {
         format  : 'Y-m-d'
     });
 
-    $('.submit input').on('click', function(e) {
-        e.preventDefault();
-        console.log('KAI :: submit click handler');
-        app.createNewCountdown();
-    });
+    //$('.submit input').on('click', function(e) {
+    //    e.preventDefault();
+    //    console.log('KAI :: submit click handler');
+    //    app.createNewCountdown();
+    //});
 };
 
-
-app.createNewCountdown = function() {
-    console.log('KAI :: creating new countdown');
-
-    //var title = "test";
-    //var description = "test description";
-    //var end_datetime = new Date().toISOString();
-    ////var image = $('.new-countdown-image').val();
-    app.setupcsrf();
-
-    //$.ajax({
-    //    type: "POST",
-    //    data: new FormData(form),
-    //    //data: form(data),
-    //    url: "/api/countdowns/create" ,
-    //    success: function(data) {
-    //
-    //    },
-    //    error: function(){
-    //        console.log('KAI :: an error occured');
-    //    }
-    //});
-
-    var form = $('#new-countdown-form');
-    //form.submit(function () {
-        $.ajax({
-            type: form.attr('method'),
-            url: "/api/countdowns/create" ,
-            data: new FormData(form),
-            success: function (data) {
-                if (data) {
-                    console.log('KAI :: data', data);
-                    if(data.status == 200) {
-                        app.createCountdownHTML(data);
-                    }
-                }
-            },
-            error: function(data) {
-                console.log('KAI :: an error occured');
-            }
-        });
-        return false;
-    //});
-
-
-
-
-};
-
+//
+//app.createNewCountdown = function() {
+//    console.log('KAI :: creating new countdown');
+//
+//    //var title = "test";
+//    //var description = "test description";
+//    //var end_datetime = new Date().toISOString();
+//    ////var image = $('.new-countdown-image').val();
+//    app.setupcsrf();
+//
+//    //$.ajax({
+//    //    type: "POST",
+//    //    data: new FormData(form),
+//    //    //data: form(data),
+//    //    url: "/api/countdowns/create" ,
+//    //    success: function(data) {
+//    //
+//    //    },
+//    //    error: function(){
+//    //        console.log('KAI :: an error occured');
+//    //    }
+//    //});
+//
+//    var form = $('#new-countdown-form');
+//    //form.submit(function () {
+//        $.ajax({
+//            type: form.attr('method'),
+//            url: "/api/countdowns/create" ,
+//            data: new FormData(form),
+//            success: function (data) {
+//                if (data) {
+//                    console.log('KAI :: data', data);
+//                    if(data.status == 200) {
+//                        app.createCountdownHTML(data);
+//                    }
+//                }
+//            },
+//            error: function(data) {
+//                console.log('KAI :: an error occured');
+//            }
+//        });
+//        return false;
+//    //});
+//
+//
+//
+//
+//};
+//
 
 
 app.createCountdownHTML = function(data) {
