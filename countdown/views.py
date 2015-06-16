@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.http import HttpResponse
+from django.core.exceptions import ObjectDoesNotExist
 from countdown_model.models import Countdown, CountdownForm
 from countdown_model.views import get_countdowns
 
@@ -23,7 +24,11 @@ def login(request):
 
 def home(request):
     username = request.user
-    countdowns = get_countdowns(request, json=False)
+    try:
+        user = User.objects.get(username=username)
+    except ObjectDoesNotExist:
+        return index(request)
+    countdowns = get_countdowns(user=user)
     for countdown in countdowns:
         countdown.update_state()
     return render(request, 'countdown/home.html', {'username': username, 'new_countdown_form': CountdownForm(), 'countdowns': countdowns})
