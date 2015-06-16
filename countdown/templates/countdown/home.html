@@ -131,7 +131,7 @@
     <div class="new-countdown-form__wrap">
         <div class="new-countdown-form__padding">
             <h1>Create Countdown</h1>
-            <form id="new-countdown-form" method="post" action="">{% csrf_token %}
+            <form id="new-countdown-form" method="post" action="" enctype="multipart/form-data"> {% csrf_token %}
                 <table>
                     {{ new_countdown_form }}
                 </table>
