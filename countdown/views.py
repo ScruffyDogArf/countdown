@@ -26,7 +26,7 @@ def home(request):
     for countdown in countdowns:
         end_datetime = datetime.datetime.combine(countdown.end_date, countdown.end_time)
         countdown.time_remaining = end_datetime - datetime.datetime.now()
-        if countdown.time_remaining.seconds < 0:
+        if countdown.time_remaining.days < 0:
             countdown.time_remaining = datetime.timedelta(0)
         countdown.complete = True if countdown.time_remaining.seconds > 0 else False
         hours, remainder = divmod(countdown.time_remaining.seconds, 3600)
