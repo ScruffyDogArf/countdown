@@ -233,6 +233,7 @@ input[type="submit"]:hover{
     position: relative;
     float: left;
     margin-left: 2%;
+    margin-top: 20px;
     width: 32%;
     max-width: 440px;
     background-color: #f6f6f6;
@@ -240,6 +241,11 @@ input[type="submit"]:hover{
 
 .countdown:nth-of-type(1) {
     margin-left: 0;
+}
+
+.countdown:nth-of-type(3n+1) {
+    margin-left: 0;
+    clear: both;
 }
 
 .countdown__image {
@@ -267,7 +273,10 @@ input[type="submit"]:hover{
 
 .countdown__time .days,
 .countdown__time .hours,
-.countdown__time .minutes {
+.countdown__time .minutes,
+.countdown__time .seconds,
+.countdown__complete
+{
     font-size: 30px;
 }
 
@@ -305,7 +314,7 @@ input[type="submit"]:hover{
     visibility:hidden;
     opacity:0;
     transition:visibility 0s linear 0.5s,opacity 0.5s linear;
-    position: absolute;
+    position: fixed;
     top:0;
     left: 0;
     width: 100%;
@@ -340,6 +349,19 @@ input[type="submit"]:hover{
     text-align: center;
 }
 
+#new-countdown-form {
+    width: 100%;
+    text-align: left;
+}
+
+#new-countdown-form th {
+    display: block;
+}
+
+#new-countdown-form td {
+    display: block;
+}
+
 input[type="text"].new-countdown-date {
     width: 24%;
 }
@@ -354,7 +376,6 @@ input[type="text"].new-countdown-time-hours {margin-left: 15%;}
 
 
 footer {
-    position: absolute;
-    bottom: 0;
+    position: relative;
     margin: 20px;
 }

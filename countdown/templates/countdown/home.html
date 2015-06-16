@@ -19,6 +19,7 @@
     {% load staticfiles %}
     <link rel="stylesheet" href="{% static "countdown/css/style.css" %}">
     <link rel="stylesheet" href="{% static "countdown/css/pickmeup.min.css" %}">
+    <!--<link rel="stylesheet" href="{% static "countdown/css/picedit.min.css" %}">-->
     <!--<link rel="shortcut icon" content="favicon.ico">-->
 
     <!--webfonts-->
@@ -26,7 +27,7 @@
     <!--//webfonts-->
 
 </head>
-<body class="home">
+<body class="home clear">
 <!--[if lte IE 8]>
 <div id="outdated-browser">
     <div class="outdated-browser__mid">
@@ -54,10 +55,44 @@
 </header>
 
 
-<div class="content">
+<div class="content clear">
     <div class="row">
         <div class="grid__wrap clear">
-            <div class="grid clear">
+            <div id="countdown_grid" class="grid clear">
+
+
+                {% for countdown in countdowns %}
+                    <div class="countdown">
+                        <img class="countdown__image" src="{% if countdown.image %} {{ countdown.image }} {% else %} {% static "countdown/img/image-1.png" %}{% endif %}" alt="image">
+                        <div class="countdown__content">
+                            {% if countdown.complete %}
+                                <p class="coundown__complete">COMPLETE</p>
+                            {% else %}
+                                <p class="countdown__time">
+                                    {% if countdown.days > 0 %}
+                                    <span class="days">{{ countdown.days }}</span> day{% if countdown.days > 1 %}s{% endif %}
+                                    {% endif %}
+
+                                    {% if countdown.hours > 0 %}
+                                    <span class="hours">{{ countdown.hours }}</span> hour{% if countdown.hours > 1 %}s{% endif %}
+                                    {% endif %}
+
+                                    {% if countdown.minutes > 0 %}
+                                    <span class="minutes">{{ countdown.minutes }}</span> minute{% if countdown.minutes > 1 %}s{% endif %}
+                                    {% endif %}
+
+                                    {% if countdown.days < 1 and countdown.seconds > 0 %}
+                                    <span class="seconds">{{ countdown.seconds }}</span> second{% if countdown.seconds > 1 %}s{% endif %}
+                                    {% endif %}
+                                </p>
+                            {% endif %}
+
+                            <p class="countdown__title capitalize">{{ countdown.title }}</p>
+                            <p class="countdown__desc">{{ countdown.brief_description }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+
 
                 <div class="countdown">
                     <img class="countdown__image" src="{% static "countdown/img/image-1.png" %}" alt="image">
@@ -88,35 +123,49 @@
         </div>
     </div>
 
-    <!-- For kai - an example on forms -->
-    <form method="post" action="">
-      <table>
-	{{ new_countdown_form }}
-      </table>
-    </form>
 
 </div> <!--END content-wrap -->
-
 
 
 <div class="modal__new-countdown">
     <div class="new-countdown-form__wrap">
         <div class="new-countdown-form__padding">
             <h1>Create Countdown</h1>
-            <form class="new-countdown-form" action="#" method="post"> {% csrf_token %}
-                <input type="text" class="text" name="countdown_name" placeholder="Countdown name">
-                <input type="text" class="text new-countdown-date" name="countdown_date" placeholder="Date">
-                <input type="text" class="text new-countdown-time-hours" name="countdown_time_hours" placeholder="HH">
-                <input type="text" class="text new-countdown-time-mins" name="countdown_time_mins" placeholder="MM">
-                <input type="text" class="text new-countdown-time-seconds" name="countdown_time_seconds" placeholder="SS">
-
+            <form id="new-countdown-form" method="post" action="">
+                <table>
+                    {{ new_countdown_form }}
+                </table>
                 <div class="submit">
-                    <input type="submit" value="submit">
+                <input type="submit" value="submit">
                 </div>
             </form>
         </div>
     </div>
 </div>
+
+<!--<div class="modal__new-countdown">-->
+    <!--<div class="new-countdown-form__wrap">-->
+        <!--<div class="new-countdown-form__padding">-->
+            <!--<h1>Create Countdown</h1>-->
+            <!--<form class="new-countdown-form" action="#" method="post" enctype="multipart/form-data"> {% csrf_token %}-->
+                <!--<input type="text" class="text" name="countdown_name" placeholder="Countdown name">-->
+                <!--<input type="text" class="text new-countdown-date" name="countdown_date" placeholder="Date">-->
+
+                <!--<input type="text" class="text new-countdown-time-hours" name="countdown_time_hours" placeholder="HH">-->
+                <!--<input type="text" class="text new-countdown-time-mins" name="countdown_time_mins" placeholder="MM">-->
+                <!--<input type="text" class="text new-countdown-time-seconds" name="countdown_time_seconds" placeholder="SS">-->
+
+                <!--<input type="file" class="text new-countdown-image" name="countdown_image">-->
+                <!--<br>-->
+                <!--<br>-->
+
+                <!--<div class="submit">-->
+                    <!--<input type="submit" value="submit">-->
+                <!--</div>-->
+            <!--</form>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
 
 
 <footer id="footer">
@@ -132,6 +181,7 @@
 <script>window.jQuery || document.write('<script src="js/external/jquery-1.10.2.min.js"><\/script>')</script>
 
 <script src="{% static "countdown/js/jquery.pickmeup.min.js" %}"></script>
+<!--<script src="{% static "countdown/js/picedit.min.js" %}"></script>-->
 <script src="{% static "countdown/js/main.js" %}"></script>
 
 

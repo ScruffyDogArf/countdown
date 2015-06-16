@@ -26,7 +26,7 @@ app.initialize = function () {
     var mm = today.getMonth()+1;
     var yyyy = today.getFullYear();
 
-    $('.new-countdown-date').pickmeup({
+    $('#id_end_date').pickmeup({
         flat    : false,
         min     : dd+'-'+mm+'-'+yyyy
     });
@@ -42,26 +42,90 @@ app.initialize = function () {
 app.createNewCountdown = function() {
     console.log('KAI :: creating new countdown');
 
-    var title = "test";
-    var description = "test description";
-    var end_datetime = new Date().toISOString();
+    //var title = "test";
+    //var description = "test description";
+    //var end_datetime = new Date().toISOString();
+    ////var image = $('.new-countdown-image').val();
     app.setupcsrf();
 
-    $.ajax({
-        type: "POST",
-        data: "title=" + title + "&description=" + description + "&end_datetime=" + end_datetime,
-        url: "/api/countdowns/create" ,
-        success: function(data) {
-            if (data) {
-                console.log('KAI ::', data);
+    //$.ajax({
+    //    type: "POST",
+    //    data: new FormData(form),
+    //    //data: form(data),
+    //    url: "/api/countdowns/create" ,
+    //    success: function(data) {
+    //
+    //    },
+    //    error: function(){
+    //        console.log('KAI :: an error occured');
+    //    }
+    //});
+
+    var form = $('#new-countdown-form');
+    //form.submit(function () {
+        $.ajax({
+            type: form.attr('method'),
+            url: "/api/countdowns/create" ,
+            data: form.serialize(),
+            success: function (data) {
+                if (data) {
+                    console.log('KAI :: data', data);
+                    if(data.status == 200) {
+                        app.createCountdownHTML(data);
+                    }
+                }
+            },
+            error: function(data) {
+                console.log('KAI :: an error occured');
             }
-        },
-        error: function(){
-            console.log('KAI :: an error occured');
-        }
-    });
+        });
+        return false;
+    //});
+
+
+
+
 };
 
+
+
+app.createCountdownHTML = function(data) {
+    console.log('KAI:: response', data.response);
+    console.log('KAI:: status', data.status);
+
+    var cd_div = document.createElement('div');
+    cd_div.className = 'countdown';
+
+
+    var cd_image = document.createElement('img');
+    cd_image.className = 'countdown__image';
+    cd_image.src = "/static/countdown/img/image-1.png";
+    cd_div.appendChild(cd_image);
+
+    var cd_content = document.createElement('div');
+    cd_content.className = 'countdown__content';
+    cd_div.appendChild(cd_content);
+
+
+    var cd_time = document.createElement('p');
+    cd_time.className = 'countdown__time';
+    cd_time.innerHTML = '<span class="days">2</span> days <span class="hours">13</span> hours <span class="minutes">45</span> minutes';
+    cd_content.appendChild(cd_time);
+
+
+    var cd_title = document.createElement('p');
+    cd_title.className = 'countdown__title capitalize';
+    cd_title.innerHTML = "Dave's a dick";
+    cd_content.appendChild(cd_title);
+
+    var cd_desc = document.createElement('p');
+    cd_desc.className = 'countdown__desc';
+    cd_desc.innerHTML = "Dipiscing lorem fells a ante. Proin consequat a justo sed ornare Vestibulum quis magna vel nunc vehicula mattis ld eget lorem";
+    cd_content.appendChild(cd_desc);
+
+    $('.grid').get(0).insertBefore(cd_div, $('.countdown__empty').get(0));
+    $('.modal__new-countdown').removeClass('show');
+};
 
 
 app.setupcsrf = function() {
