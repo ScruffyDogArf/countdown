@@ -64,7 +64,7 @@
                 {% for countdown in countdowns %}
                     <div class="countdown">
                         <!--<img class="countdown__image" src="{% static "countdown/img/image-1.png" %}" alt="image">-->
-                        <img class="countdown__image" src="{% if countdown.image %} {{ countdown.image }} {% else %} {% static "countdown/img/image-1.png" %}{% endif %}" alt="image">
+                        <img class="countdown__image" src="{% if countdown.image %} {{ countdown.image.url }} {% else %} {% static "countdown/img/image-1.png" %}{% endif %}" alt="image">
                         <div class="countdown__content">
                             {% if countdown.complete %}
                                 <p class="coundown__complete">COMPLETE</p>

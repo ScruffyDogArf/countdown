@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from django.http import HttpResponse
 from countdown_model.models import Countdown, CountdownForm
+from countdown_model.views import get_countdowns
 
 def index(request):
     username = request.user
@@ -22,21 +23,8 @@ def login(request):
 
 def home(request):
     username = request.user
-    countdowns = Countdown.objects.all()
+    countdowns = get_countdowns(request, json=False)
     for countdown in countdowns:
         countdown.update_state()
-        # end_datetime = datetime.datetime.combine(countdown.end_date, countdown.end_time)
-        # countdown.time_remaining = end_datetime - datetime.datetime.now()
-        # if countdown.time_remaining.days < 0:
-        #     countdown.time_remaining = datetime.timedelta(0)
-        #     countdown.complete = True
-        # else:
-        #     countdown.complete = False
-        # hours, remainder = divmod(countdown.time_remaining.seconds, 3600)
-        # minutes, seconds = divmod(remainder, 60)
-        # countdown.days = countdown.time_remaining.days
-        # countdown.hours = hours
-        # countdown.minutes = minutes
-        # countdown.seconds = seconds
     return render(request, 'countdown/home.html', {'username': username, 'new_countdown_form': CountdownForm(), 'countdowns': countdowns})
 

@@ -13,29 +13,23 @@ from countdown_model.models import Countdown, CountdownForm
 def index(request):
     return render(request, 'countdown/index.html')
 
-def get_countdowns(request):
+def get_countdowns(request, json=True):
     response = {'status': None, 'error': None, 'response': None}
     username = request.user
     try:
         user = User.objects.get(username=username)
-        countdowns = Countdown.objects.filter(user=user)
-        response2 = []
-        for countdown in countdowns:
-            x = {} # countdown attributes to return
-            x['title'] = countdown.title
-            x['description'] = countdown.brief_description
-            x['end_datetime'] = countdown.end_datetime.isoformat() + 'Z'
-            x['id_string'] = countdown.id_string
-            try:
-                x['image'] = countdown.image.url
-            except ValueError:
-                x['image'] = None
-            response2.append(x)
-        response['response'] = response2
-        response['status'] = 200
     except ObjectDoesNotExist:
         response['status'] = 400
         response['error'] = 'User does not exist: {}'.format(username)
+        return HttpResponse(json.dumps(response), content_type="application/json")
+    countdowns =  Countdown.objects.filter(user=user)
+    if json == False:
+        return countdowns
+    response2 = []
+    for countdown in countdowns:
+        response2 += [json.loads(countdown.json())]
+    response['response'] = response2
+    response['status'] = 200
     return HttpResponse(json.dumps(response), content_type="application/json")
 
 def create_countdown(request):
@@ -49,11 +43,8 @@ def create_countdown(request):
         return HttpResponse(json.dumps(response), content_type='application/json')
     try:
         countdown = Countdown(user=user)
-        print 'request.POST: {}'.format(request.POST)
-        print 'request.FILES: {}'.format(request.FILES)
         form = CountdownForm(request.POST, request.FILES, instance=countdown)
         countdown = form.save()
-        print 'form.data: {}'.format(form.data)
         countdown.id_string = '{}'.format(countdown.id)
         countdown.id_string += ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10))
         countdown.save()
@@ -63,27 +54,12 @@ def create_countdown(request):
         return HttpResponse(json.dumps(response), content_type="application/json")
     return HttpResponse(countdown.json(), content_type="json")
 
-        # response['status'] = 200
-        # response2 = {}
-        # response2['title'] = countdown.title
-        # response2['brief_description'] = countdown.brief_description
-        # response2['end_date'] = countdown.end_date
-        # response2['end_time'] = countdown.end_time
-        # response2['days']
-        # response2['hours']
-        # response2['minutes']
-        # response2['seconds']
-        # response2['complete']
-        # return HttpResponse(json.dumps(response), content_type="application/json")
-
-
-        # try:
+    # try:
     #     response2['image'] = countdown.image.url
     # except ValueError:
     #     response2['image'] = None
     # response['response'] = response2
     # return HttpResponse(json.dumps(response), content_type="application/json")
-
     # try:
     #     title = method['title']
     # except MultiValueDictKeyError:
