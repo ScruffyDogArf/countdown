@@ -63,7 +63,7 @@
 
                 {% for countdown in countdowns %}
                     <div class="countdown">
-                        <noscript class="list__item__image"><img class="countdown__image" src="{% static "countdown/img/image-1.png" %}" alt="image"></noscript>
+                        <img class="countdown__image" src="{% static "countdown/img/image-1.png" %}" alt="image">
                         <!--<img class="countdown__image" src="{% if countdown.image %} {{ countdown.image }} {% else %} {% static "countdown/img/image-1.png" %}{% endif %}" alt="image">-->
                         <div class="countdown__content">
                             {% if countdown.complete %}
@@ -96,7 +96,7 @@
 
 
                 <div class="countdown">
-                    <noscript class="list__item__image"><img class="countdown__image" src="{% static "countdown/img/image-1.png" %}" alt="image"></noscript>
+                    <img class="countdown__image" src="{% static "countdown/img/image-1.png" %}" alt="image">
                     <div class="countdown__content">
 
                         <p class="countdown__time"><span class="days">2</span> days <span class="hours">13</span> hours <span class="minutes">45</span> minutes</p>
@@ -106,7 +106,7 @@
                 </div>
 
                 <div class="countdown">
-                    <noscript class="list__item__image"><img class="countdown__image" src="{% static "countdown/img/image-1.png" %}" alt="image"></noscript>
+                    <img class="countdown__image" src="{% static "countdown/img/image-1.png" %}" alt="image">
                     <div class="countdown__content">
 
                         <p class="countdown__time"><span class="days">2</span> days <span class="hours">13</span> hours <span class="minutes">45</span> minutes</p>
@@ -181,6 +181,7 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="js/external/jquery-1.10.2.min.js"><\/script>')</script>
 
+<script src="http://malsup.github.com/jquery.form.js"></script>
 <script src="{% static "countdown/js/jquery.pickmeup.min.js" %}"></script>
 <!--<script src="{% static "countdown/js/picedit.min.js" %}"></script>-->
 <script src="{% static "countdown/js/main.js" %}"></script>
