@@ -12,14 +12,15 @@ class Countdown(models.Model):
     entry_date = models.DateTimeField(default=datetime.now)
     user = models.ForeignKey(User)
     image = models.ImageField(upload_to=settings.MEDIA_ROOT, blank=True, null=True)
-    end_datetime = models.DateTimeField()
+    end_date = models.DateField(blank=True, null=True)
+    end_time = models.TimeField(blank=True, null=True)
+    # end_datetime = models.DateTimeField()
     id_string = models.CharField(max_length=100)
     
 class CountdownForm(ModelForm):
     class Meta:
         model = Countdown
-        fields = ['title', 'brief_description', 'image', 'end_datetime']
-        labels = {'brief_description': _('description')}
+        fields = ('title', 'brief_description', 'image', 'end_date', 'end_time')
 
 class ProfilePicture(models.Model):
     image = models.ImageField(blank=True, null=True)
