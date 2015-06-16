@@ -29,38 +29,37 @@
     $( window ).on( 'resize', setHeights );
 
 
-
-    var loadImages = function()
-    {
-        $items.filter( '.js-load-images:first' ).each( function()
-        {
-            var $this       = $( this ),
-                $imgs       = $this.find( 'noscript.list__item__image' ),
-                imgTotal    = $imgs.length,
-                imgLoaded   = 0;
-
-            $imgs.each( function()
-            {
-                var $noscript   = $( this ),
-                    $img        = $( $noscript.text() );
-
-                $img.load( function()
-                {
-                    $noscript.replaceWith( $img );
-                    imgLoaded++;
-                    if( imgLoaded >= imgTotal )
-                    {
-                        $this.css( 'opacity', 1 );
-                        setHeights();
-                        loadImages();
-                    }
-                });
-            });
-        });
-    };
-
-    $items.addClass( 'js-load-images' );
-    loadImages();
+    //var loadImages = function()
+    //{
+    //    $items.filter( '.js-load-images:first' ).each( function()
+    //    {
+    //        var $this       = $( this ),
+    //            $imgs       = $this.find( 'noscript.list__item__image' ),
+    //            imgTotal    = $imgs.length,
+    //            imgLoaded   = 0;
+    //
+    //        $imgs.each( function()
+    //        {
+    //            var $noscript   = $( this ),
+    //                $img        = $( $noscript.text() );
+    //
+    //            $img.load( function()
+    //            {
+    //                $noscript.replaceWith( $img );
+    //                imgLoaded++;
+    //                if( imgLoaded >= imgTotal )
+    //                {
+    //                    $this.css( 'opacity', 1 );
+    //                    setHeights();
+    //                    loadImages();
+    //                }
+    //            });
+    //        });
+    //    });
+    //};
+    //
+    //$items.addClass( 'js-load-images' );
+    //loadImages();
 
 })( jQuery, window, document );
 
@@ -99,15 +98,33 @@ app.initialize = function () {
         format  : 'Y-m-d'
     });
 
-    //$('.submit input').on('click', function(e) {
-    //    e.preventDefault();
-    //    console.log('KAI :: submit click handler');
-    //    app.createNewCountdown();
-    //});
+    $('.submit input').on('click', function(e) {
+        e.preventDefault();
+        console.log('KAI :: submit click handler');
+        app.createNewCountdown();
+    });
 };
 
-//
-//app.createNewCountdown = function() {
+
+app.createNewCountdown = function() {
+
+    options = {
+        url: '/api/countdowns/create',
+        type: 'POST',
+        success: function(response) {
+            if (data) {
+                    console.log('KAI :: data', data);
+                    if(data.status == 200) {
+                        app.createCountdownHTML(data);
+                    }
+                }
+        }
+    };
+
+    $('#new-countdown-form').ajaxSubmit(options);
+
+
+
 //    console.log('KAI :: creating new countdown');
 //
 //    //var title = "test";
@@ -153,8 +170,8 @@ app.initialize = function () {
 //
 //
 //
-//};
-//
+};
+
 
 
 app.createCountdownHTML = function(data) {
