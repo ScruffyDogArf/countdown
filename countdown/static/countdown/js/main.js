@@ -14,12 +14,12 @@ app.initialize = function () {
         $('.modal__new-countdown').addClass('show');
     });
 
-    $('.modal__new-countdown').on('click', function(e){
-        e.preventDefault();
-        if( e.target !== this )
-            return;
-        $('.modal__new-countdown').removeClass('show');
-    });
+    //$('.modal__new-countdown').on('click', function(e){
+    //    e.preventDefault();
+    //    if( e.target !== this )
+    //        return;
+    //    $('.modal__new-countdown').removeClass('show');
+    //});
 
     var today = new Date();
     var dd = today.getDate();
