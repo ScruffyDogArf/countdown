@@ -69,7 +69,6 @@ var app = {};
 
 
 app.initialize = function () {
-
     $('.user-menu').on('click', function(e){
         e.preventDefault();
         $('.user-menu__dropdown', this).slideToggle('fast');
