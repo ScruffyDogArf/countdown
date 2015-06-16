@@ -32,8 +32,8 @@ app.initialize = function () {
         format  : 'Y-m-d'
     });
 
-    $('.submit input').on('click', function() {
-
+    $('.submit input').on('click', function(e) {
+        e.preventDefault();
         console.log('KAI :: submit click handler');
         app.createNewCountdown();
     });
