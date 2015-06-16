@@ -28,7 +28,7 @@ app.initialize = function () {
 
     $('#id_end_date').pickmeup({
         flat    : false,
-        min     : dd+'-'+mm+'-'+yyyy,
+        min     : yyyy+'-'+mm+'-'+dd,
         format  : 'Y-m-d'
     });
 
