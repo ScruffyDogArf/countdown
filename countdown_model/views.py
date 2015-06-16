@@ -41,16 +41,25 @@ def get_countdowns(request):
 def create_countdown(request):
     response = {'status': None, 'error': None, 'response': None}
     username = request.user
-    method = request.POST
-    form = CountdownForm(method)
     try:
-        countdown = form.save(commit=False)
+        user = User.objects.get(username=username)
+    except ObjectDoesNotExist:
+        response['status'] = 400
+        response['error'] = 'User does not exist: {}'.format(username)
+        return HttpResponse(json.dumps(response), content_type='application/json')
+    try:
+        countdown = Countdown(user=user)
+        print 'request.POST: {}'.format(request.POST)
+        print 'request.FILES: {}'.format(request.FILES)
+        form = CountdownForm(request.POST, request.FILES, instance=countdown)
+        countdown = form.save()
+        print 'form.data: {}'.format(form.data)
         countdown.id_string = '{}'.format(countdown.id)
         countdown.id_string += ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10))
         countdown.save()
     except ValueError as e:
         response['status'] = 400
-        response['error'] = e
+        response['error'] = str(e) + '\n{}'.format(form.errors)
         return HttpResponse(json.dumps(response), content_type="application/json")
     return HttpResponse(countdown.json(), content_type="json")
 

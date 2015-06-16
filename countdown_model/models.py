@@ -24,8 +24,15 @@ class Countdown(models.Model):
         x = {}
         self.update_state()
         for output_field in self.output_fields + self.output_fields_current_state:
-            x[output_field] = getattr(self, output_field)
-        return HttpResponse(json.dumps(response), content_type="application/json")
+            if output_field in ['end_date', 'end_time']:
+                x[output_field] = str(getattr(self, output_field))
+            elif output_field in ['image'] and getattr(self, output_field) == None:
+                x[output_field] = ''
+            elif output_field in ['image']:
+                x[output_field] = getattr(self, output_field).url
+            else:
+                x[output_field] = getattr(self, output_field)
+        return json.dumps(x)
     def update_state(self):
         end_datetime = datetime.combine(self.end_date, self.end_time)
         self.time_remaining = end_datetime - datetime.now()
@@ -46,7 +53,7 @@ class CountdownForm(ModelForm):
     class Meta:
         model = Countdown
         fields = Countdown.input_fields
-
+        
 class ProfilePicture(models.Model):
     image = models.ImageField(blank=True, null=True)
     user = models.ForeignKey(User)
