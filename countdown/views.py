@@ -1,9 +1,10 @@
+import datetime
 import django
 from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.http import HttpResponse
-from countdown_model.models import CountdownForm
+from countdown_model.models import Countdown, CountdownForm
 
 def index(request):
     username = request.user
@@ -21,5 +22,9 @@ def login(request):
 
 def home(request):
     username = request.user
-    return render(request, 'countdown/home.html', {'username': username, 'new_countdown_form': CountdownForm()})
+    countdowns = Countdown.objects.all()
+    for countdown in countdowns:
+        end_datetime = datetime.datetime.combine(countdown.end_date, countdown.end_time)
+        countdown.time_remaining = end_datetime - datetime.datetime.now()
+    return render(request, 'countdown/home.html', {'username': username, 'new_countdown_form': CountdownForm(), 'countdowns': countdowns})
 
