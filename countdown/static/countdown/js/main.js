@@ -144,7 +144,6 @@ app.createCountdownHTML = function(data) {
 
 
     var cd_time = document.createElement('p');
-    cd_time.className = 'countdown__time';
 
     var timeRemainingHTML = '';
 
@@ -179,6 +178,14 @@ app.createCountdownHTML = function(data) {
         }
     }
 
+    if (timeRemainingHTML == '') {
+        timeRemainingHTML = 'COMPLETE';
+        cd_time.className = 'countdown__complete';
+    } else {
+        cd_time.className = 'countdown__time';
+    }
+
+
     cd_time.innerHTML = timeRemainingHTML;
     cd_content.appendChild(cd_time);
 
@@ -195,8 +202,35 @@ app.createCountdownHTML = function(data) {
 
     $('.grid').get(0).insertBefore(cd_div, $('.countdown__empty').get(0));
     $('.modal__new-countdown').removeClass('show');
+
+    setTimeout(function(){app.setHeights()}, 1000);
 };
 
+
+app.setHeights = function() {
+
+    console.log('KAI :: setting heights');
+    var $list       = $( '.grid' ),
+        $items      = $list.find( '.countdown' );
+
+        $items.css( 'height', 'auto' );
+
+        var perRow = Math.floor( $list.width() / $items.width() );
+        //if( perRow == null || perRow < 2 ) return true;
+
+        for( var i = 0, j = $items.length; i < j; i += perRow )
+        {
+            var maxHeight   = 0,
+                $row        = $items.slice( i, i + perRow );
+
+            $row.each( function()
+            {
+                var itemHeight = parseInt( $( this ).outerHeight() );
+                if ( itemHeight > maxHeight ) maxHeight = itemHeight;
+            });
+            $row.css( 'height', maxHeight );
+        }
+};
 
 app.setupcsrf = function() {
     $.ajaxSetup({
