@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.http import HttpResponse
+from countdown.models import CountdownForm
 
 def index(request):
     username = request.user
@@ -20,5 +21,5 @@ def login(request):
 
 def home(request):
     username = request.user
-    return render(request, 'countdown/home.html', {'username': username})
+    return render(request, 'countdown/home.html', {'username': username, 'new_countdown_form': CountdownForm()})
 

@@ -1,7 +1,9 @@
+from datetime import datetime
+from django.forms import ModelForm
 from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
-from datetime import datetime
+from django.utils.translation import ugettext_lazy as _
 
 # Create your models here.
 class Countdown(models.Model):
@@ -13,6 +15,12 @@ class Countdown(models.Model):
     end_datetime = models.DateTimeField()
     id_string = models.CharField(max_length=100)
     
+class CountdownForm(ModelForm):
+    class Meta:
+        model = Countdown
+        fields = ['title', 'brief_description', 'image', 'end_datetime']
+        labels = {'brief_description': _('description')}
+
 class ProfilePicture(models.Model):
     image = models.ImageField(blank=True, null=True)
     user = models.ForeignKey(User)
