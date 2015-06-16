@@ -1,3 +1,70 @@
+;( function( $, window, document, undefined )
+{
+    'use strict';
+
+    var $list       = $( '.grid' ),
+        $items      = $list.find( '.countdown' ),
+        setHeights  = function()
+        {
+            $items.css( 'height', 'auto' );
+
+            var perRow = Math.floor( $list.width() / $items.width() );
+            if( perRow == null || perRow < 2 ) return true;
+
+            for( var i = 0, j = $items.length; i < j; i += perRow )
+            {
+                var maxHeight   = 0,
+                    $row        = $items.slice( i, i + perRow );
+
+                $row.each( function()
+                {
+                    var itemHeight = parseInt( $( this ).outerHeight() );
+                    if ( itemHeight > maxHeight ) maxHeight = itemHeight;
+                });
+                $row.css( 'height', maxHeight );
+            }
+        };
+
+    setHeights();
+    $( window ).on( 'resize', setHeights );
+
+
+
+    var loadImages = function()
+    {
+        $items.filter( '.js-load-images:first' ).each( function()
+        {
+            var $this       = $( this ),
+                $imgs       = $this.find( 'noscript.list__item__image' ),
+                imgTotal    = $imgs.length,
+                imgLoaded   = 0;
+
+            $imgs.each( function()
+            {
+                var $noscript   = $( this ),
+                    $img        = $( $noscript.text() );
+
+                $img.load( function()
+                {
+                    $noscript.replaceWith( $img );
+                    imgLoaded++;
+                    if( imgLoaded >= imgTotal )
+                    {
+                        $this.css( 'opacity', 1 );
+                        setHeights();
+                        loadImages();
+                    }
+                });
+            });
+        });
+    };
+
+    $items.addClass( 'js-load-images' );
+    loadImages();
+
+})( jQuery, window, document );
+
+
 
 var app = {};
 
@@ -67,7 +134,7 @@ app.createNewCountdown = function() {
         $.ajax({
             type: form.attr('method'),
             url: "/api/countdowns/create" ,
-            data: form.serialize(),
+            data: new FormData(form),
             success: function (data) {
                 if (data) {
                     console.log('KAI :: data', data);
@@ -160,3 +227,5 @@ app.setupcsrf = function() {
 $( document ).ready(function() {
     app.initialize();
 });
+
+
