@@ -98,78 +98,35 @@ app.initialize = function () {
         format  : 'Y-m-d'
     });
 
-    $('.submit input').on('click', function(e) {
+
+    $('#new-countdown-form').on('submit',(function(e) {
         e.preventDefault();
-        console.log('KAI :: submit click handler');
         app.createNewCountdown();
-    });
+    }));
 };
 
 
 app.createNewCountdown = function() {
 
-    options = {
-        url: '/api/countdowns/create',
-        type: 'POST',
-        success: function(response) {
-            if (data) {
-                    console.log('KAI :: data', data);
-                    if(data.status == 200) {
-                        app.createCountdownHTML(data);
-                    }
-                }
+    var formData = new FormData(this);
+
+    $.ajax({
+        type:'POST',
+        url: $(this).attr('action'),
+        data:formData,
+        cache:false,
+        contentType: false,
+        processData: false,
+        success:function(data){
+            console.log("success");
+            console.log(data);
+            app.createCountdownHTML(data);
+        },
+        error: function(data){
+            console.log("error");
+            console.log(data);
         }
-    };
-
-    $('#new-countdown-form').ajaxSubmit(options);
-
-
-
-//    console.log('KAI :: creating new countdown');
-//
-//    //var title = "test";
-//    //var description = "test description";
-//    //var end_datetime = new Date().toISOString();
-//    ////var image = $('.new-countdown-image').val();
-//    app.setupcsrf();
-//
-//    //$.ajax({
-//    //    type: "POST",
-//    //    data: new FormData(form),
-//    //    //data: form(data),
-//    //    url: "/api/countdowns/create" ,
-//    //    success: function(data) {
-//    //
-//    //    },
-//    //    error: function(){
-//    //        console.log('KAI :: an error occured');
-//    //    }
-//    //});
-//
-//    var form = $('#new-countdown-form');
-//    //form.submit(function () {
-//        $.ajax({
-//            type: form.attr('method'),
-//            url: "/api/countdowns/create" ,
-//            data: new FormData(form),
-//            success: function (data) {
-//                if (data) {
-//                    console.log('KAI :: data', data);
-//                    if(data.status == 200) {
-//                        app.createCountdownHTML(data);
-//                    }
-//                }
-//            },
-//            error: function(data) {
-//                console.log('KAI :: an error occured');
-//            }
-//        });
-//        return false;
-//    //});
-//
-//
-//
-//
+    });
 };
 
 
