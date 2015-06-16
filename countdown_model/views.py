@@ -7,7 +7,7 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.datastructures import MultiValueDictKeyError
-from countdown_model.models import Countdown
+from countdown_model.models import Countdown, CountdownForm
 
 # Create your views here.
 def index(request):
@@ -42,55 +42,88 @@ def create_countdown(request):
     response = {'status': None, 'error': None, 'response': None}
     username = request.user
     method = request.POST
+    form = CountdownForm(method)
     try:
-        title = method['title']
-    except MultiValueDictKeyError:
+        countdown = form.save(commit=False)
+        countdown.id_string = '{}'.format(countdown.id)
+        countdown.id_string += ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10))
+        countdown.save()
+    except ValueError as e:
         response['status'] = 400
-        response['error'] = 'Missing required argument: title' + '\nrequest:\n{}'.format(request)
-        return HttpResponse(json.dumps(response), content_type='application/json')
-    try:
-        brief_description = method['description']
-    except MultiValueDictKeyError:
-        response['status'] = 400
-        response['error'] = 'Missing required argument: description'
-        return HttpResponse(json.dumps(response), content_type='application/json')
-    try:
-        end_datetime = datetime.datetime.strptime(method['end_datetime'], '%Y-%m-%dT%H:%M:%S.%fZ')
-    except MultiValueDictKeyError:
-        response['status'] = 400
-        response['error'] = 'Missing required argument: end_datetime'
-        return HttpResponse(json.dumps(response), content_type='application/json')
+        response['error'] = e
+        return HttpResponse(json.dumps(response), content_type="application/json")
+    return HttpResponse(countdown.json(), content_type="json")
+
+        # response['status'] = 200
+        # response2 = {}
+        # response2['title'] = countdown.title
+        # response2['brief_description'] = countdown.brief_description
+        # response2['end_date'] = countdown.end_date
+        # response2['end_time'] = countdown.end_time
+        # response2['days']
+        # response2['hours']
+        # response2['minutes']
+        # response2['seconds']
+        # response2['complete']
+        # return HttpResponse(json.dumps(response), content_type="application/json")
+
+
+        # try:
+    #     response2['image'] = countdown.image.url
+    # except ValueError:
+    #     response2['image'] = None
+    # response['response'] = response2
+    # return HttpResponse(json.dumps(response), content_type="application/json")
+
     # try:
-    #     image = method['image'] # TODO:
+    #     title = method['title']
     # except MultiValueDictKeyError:
-    #     image = None
-    try:
-        user = User.objects.get(username=username)
-    except ObjectDoesNotExist:
-        response['status'] = 400
-        response['error'] = 'User does not exist: {}'.format(username)
-        return HttpResponse(json.dumps(response), content_type='application/json')
-    countdown = Countdown()
-    countdown.user = user
-    countdown.title = title
-    countdown.brief_description = brief_description
-    countdown.end_datetime = end_datetime
-    # countdown.image = image
-    countdown.save()
-    countdown.id_string = '{}'.format(countdown.id)
-    countdown.id_string += ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10))
-    countdown.save()
-    response['status'] = 200
-    response2 = {}
-    response2['title'] = countdown.title
-    response2['description'] = countdown.brief_description
-    response2['end_datetime'] = countdown.end_datetime.isoformat() + 'Z'
-    try:
-        response2['image'] = countdown.image.url
-    except ValueError:
-        response2['image'] = None
-    response['response'] = response2
-    return HttpResponse(json.dumps(response), content_type="application/json")
+    #     response['status'] = 400
+    #     response['error'] = 'Missing required argument: title' + '\nrequest:\n{}'.format(request)
+    #     return HttpResponse(json.dumps(response), content_type='application/json')
+    # try:
+    #     brief_description = method['description']
+    # except MultiValueDictKeyError:
+    #     response['status'] = 400
+    #     response['error'] = 'Missing required argument: description'
+    #     return HttpResponse(json.dumps(response), content_type='application/json')
+    # try:
+    #     end_datetime = datetime.datetime.strptime(method['end_datetime'], '%Y-%m-%dT%H:%M:%S.%fZ')
+    # except MultiValueDictKeyError:
+    #     response['status'] = 400
+    #     response['error'] = 'Missing required argument: end_datetime'
+    #     return HttpResponse(json.dumps(response), content_type='application/json')
+    # # try:
+    # #     image = method['image'] # TODO:
+    # # except MultiValueDictKeyError:
+    # #     image = None
+    # try:
+    #     user = User.objects.get(username=username)
+    # except ObjectDoesNotExist:
+    #     response['status'] = 400
+    #     response['error'] = 'User does not exist: {}'.format(username)
+    #     return HttpResponse(json.dumps(response), content_type='application/json')
+    # countdown = Countdown()
+    # countdown.user = user
+    # countdown.title = title
+    # countdown.brief_description = brief_description
+    # countdown.end_datetime = end_datetime
+    # # countdown.image = image
+    # countdown.save()
+    # countdown.id_string = '{}'.format(countdown.id)
+    # countdown.id_string += ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10))
+    # countdown.save()
+    # response['status'] = 200
+    # response2 = {}
+    # response2['title'] = countdown.title
+    # response2['description'] = countdown.brief_description
+    # response2['end_datetime'] = countdown.end_datetime.isoformat() + 'Z'
+    # try:
+    #     response2['image'] = countdown.image.url
+    # except ValueError:
+    #     response2['image'] = None
+    # response['response'] = response2
+    # return HttpResponse(json.dumps(response), content_type="application/json")
 
 def update_countdown(request):
     username = request.user
