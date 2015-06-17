@@ -109,6 +109,15 @@ app.initialize = function () {
     //    $('.modal__new-countdown').removeClass('show');
     //});
 
+
+    $.mask.definitions['1']='[0-1]';
+    $.mask.definitions['2']='[0-2]';
+    $.mask.definitions['3']='[0-3]';
+    $.mask.definitions['5']='[0-5]';
+    $('#id_end_date').mask("9999-19-39").attr('placeholder','YYYY-MM-DD');
+    $('#id_end_time').mask("29:59:59").attr('placeholder','HH:MM:SS');
+
+
     var today = new Date();
     var dd = today.getDate();
     var mm = today.getMonth()+1;
@@ -117,7 +126,8 @@ app.initialize = function () {
     $('#id_end_date').pickmeup({
         flat    : false,
         min     : yyyy+'-'+mm+'-'+dd,
-        format  : 'Y-m-d'
+        format  : 'Y-m-d',
+        hide_on_select: true
     });
 
 
