@@ -27,7 +27,7 @@ class Countdown(models.Model):
         for output_field in self.output_fields + self.output_fields_current_state:
             if output_field in ['end_date', 'end_time']:
                 x[output_field] = str(getattr(self, output_field))
-            elif output_field in ['image'] and getattr(self, output_field) == None:
+            elif output_field in ['image'] and getattr(self, output_field) in [None, '']:
                 x[output_field] = ''
             elif output_field in ['image']:
                 x[output_field] = getattr(self, output_field).url

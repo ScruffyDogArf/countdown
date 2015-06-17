@@ -32,13 +32,16 @@ def logout(request):
     return redirect('/')
 
 def home(request):
+    print 'home'
     username = request.user
     try:
         user = User.objects.get(username=username)
     except ObjectDoesNotExist:
+        print 'user does not exist: {}'.format(username)
         return index(request)
     countdowns = get_countdowns(user=user)
     for countdown in countdowns:
         countdown.update_state()
+    print 'rendering home page'
     return render(request, 'countdown/home.html', {'username': username, 'new_countdown_form': CountdownForm(), 'countdowns': countdowns})
 

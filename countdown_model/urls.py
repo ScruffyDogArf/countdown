@@ -20,8 +20,8 @@ import views
 
 urlpatterns = [
     # url(r'^$', views.index),
-    url('countdowns/countdowns.json', views.get_countdowns_api),
-    url('countdowns/create', views.create_countdown),
-    url('countdowns/update', views.update_countdown),
-    url('countdowns/delete', views.delete_countdown),
+    url('countdowns/countdowns$', views.get_countdowns_api),
+    url('countdowns/create$', views.create_countdown),
+    url('countdowns/update/(?P<id_string>\w+)$', views.update_countdown),
+    url('countdowns/delete/(?P<id_string>\w+)$', views.delete_countdown),
 ]
