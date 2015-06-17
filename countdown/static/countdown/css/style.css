@@ -270,6 +270,12 @@ input[type="submit"]:hover{
     position: relative;
     width: 100%;
     margin: auto;
+    margin-top: 60px;
+    /*background: #ffffff;*/
+}
+
+.grid {
+    padding: 30px 30px 10px;
 }
 
 
@@ -284,7 +290,7 @@ input[type="submit"]:hover{
     position: relative;
     float: left;
     margin-left: 2%;
-    margin-top: 20px;
+    margin-bottom: 20px;
     width: 32%;
     max-width: 440px;
     background-color: #f6f6f6;
@@ -313,6 +319,23 @@ input[type="submit"]:hover{
     padding: 30px;
     text-align: right;
     color: #2a2a2a;
+}
+
+.countdown__menu {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 45px;
+    height: 45px;
+    background: url(../img/iconCountdownMenu.png) no-repeat;
+    background-size: 100%;
+    background-position: 0 0;
+}
+
+.countdown__menu:hover {
+    background: url(../img/iconCountdownMenu.png) no-repeat;
+    background-size: 100%;
+    background-position: 0 -45px;
 }
 
 .countdown__title {
