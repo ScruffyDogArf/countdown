@@ -72,14 +72,12 @@ app.initialize = function () {
     $('.username').on('click', function(e){
         e.preventDefault();
         e.stopPropagation();
-        console.log('KAI :: username click');
         $('.username-dropdown').toggleClass('show');
     });
 
     $('.countdown__menu-icon').on('click', function(e){
         e.preventDefault();
         e.stopPropagation();
-        console.log('KAI :: username click');
         $('.countdown__menu').not($(this).parent()).removeClass('show');
         $(this).parent().toggleClass('show');
     });
@@ -88,9 +86,9 @@ app.initialize = function () {
         $('.username-dropdown').removeClass('show');
         $('.modal__bg-wrapper').removeClass('show');
         $('.countdown__menu').removeClass('show');
-        //$('.content').foggy(false);
+        $('.content').foggy(false);
 
-        //app.unlockScroll();
+        app.unlockScroll();
     });
 
     $('.username-dropdown').on('click', function(e){
@@ -100,13 +98,13 @@ app.initialize = function () {
     $('.add-icon').on('click', function(e){
         e.stopPropagation();
         $('.modal__bg-wrapper').addClass('show');
-        //$('.content').foggy({
-        //    blurRadius: 32,
-        //    opacity: 1,
-        //    cssFilterSupport: true
-        //});
-        //
-        //app.lockScroll();
+        $('.content').foggy({
+            blurRadius: 32,
+            opacity: 1,
+            cssFilterSupport: true
+        });
+
+        app.lockScroll();
     });
 
     $('.new-countdown-form__wrap').on('click', function(e){
@@ -157,8 +155,28 @@ app.initialize = function () {
             }
         });
     }));
+
+    var numActiveCountdowns = $('.countdown__time').length;
 };
 
+app.lockScroll = function() {
+    var scrollPosition = [
+        self.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft,
+        self.pageYOffset || document.documentElement.scrollTop  || document.body.scrollTop
+    ];
+    var html = jQuery('html'); // it would make more sense to apply this to body, but IE7 won't have that
+    html.data('scroll-position', scrollPosition);
+    html.data('previous-overflow', html.css('overflow'));
+    html.css('overflow', 'hidden');
+    window.scrollTo(scrollPosition[0], scrollPosition[1]);
+};
+
+app.unlockScroll = function() {
+    var html = jQuery('html');
+    var scrollPosition = html.data('scroll-position');
+    html.css('overflow', html.data('previous-overflow'));
+    window.scrollTo(scrollPosition[0], scrollPosition[1]);
+};
 
 
 app.createCountdownHTML = function(data) {
