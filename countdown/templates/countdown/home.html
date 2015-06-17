@@ -51,7 +51,7 @@
                     <div class="account-dropdown">
                         <a href="#"><span class="username">{{ username }}</span></a>
 
-                        <div class="dropdown dropdown-tip username-dropdown">
+                        <div class="dropdown-tip username-dropdown">
                             <div class="dropdown-panel">
                                 <div><a href="#">Profile</a></div>
                                 <div><a href="#">Settings</a></div>
@@ -75,7 +75,13 @@
 
                 {% for countdown in countdowns %}
                     <div class="countdown">
-                        <div class="countdown__menu"></div>
+                        <div class="countdown__menu">
+                            <div class="countdown__menu-icon"></div>
+                            <div class="countdown__menu-dropdown">
+                                <a href="#" class="edit-button blue-button button">edit</a>
+                                <a href="#" class="delete-button red-button button">delete</a>
+                            </div>
+                        </div>
                         <!--<img class="countdown__image" src="{% static "countdown/img/image-1.png" %}" alt="image">-->
                         <img class="countdown__image" src="{% if countdown.image %} {{ countdown.image.url }} {% else %} {% static "countdown/img/image-1.png" %}{% endif %}" alt="image">
                         <div class="countdown__content">
@@ -109,7 +115,13 @@
 
 
                 <div class="countdown">
-                    <div class="countdown__menu"></div>
+                    <div class="countdown__menu">
+                        <div class="countdown__menu-icon"></div>
+                        <div class="countdown__menu-dropdown">
+                            <a href="#" class="edit-button blue-button button">edit</a>
+                            <a href="#" class="delete-button red-button button">delete</a>
+                        </div>
+                    </div>
                     <img class="countdown__image" src="{% static "countdown/img/image-1.png" %}" alt="image">
                     <div class="countdown__content">
 
@@ -120,7 +132,13 @@
                 </div>
 
                 <div class="countdown">
-                    <div class="countdown__menu"></div>
+                    <div class="countdown__menu">
+                        <div class="countdown__menu-icon"></div>
+                        <div class="countdown__menu-dropdown">
+                            <a href="#" class="edit-button blue-button button">edit</a>
+                            <a href="#" class="delete-button red-button button">delete</a>
+                        </div>
+                    </div>
                     <img class="countdown__image" src="{% static "countdown/img/image-1.png" %}" alt="image">
                     <div class="countdown__content">
 

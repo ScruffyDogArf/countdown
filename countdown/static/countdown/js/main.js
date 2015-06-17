@@ -76,9 +76,18 @@ app.initialize = function () {
         $('.username-dropdown').toggleClass('show');
     });
 
+    $('.countdown__menu-icon').on('click', function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        console.log('KAI :: username click');
+        $('.countdown__menu').not($(this).parent()).removeClass('show');
+        $(this).parent().toggleClass('show');
+    });
+
     $('html').click(function() {
         $('.username-dropdown').removeClass('show');
         $('.modal__bg-wrapper').removeClass('show');
+        $('.countdown__menu').removeClass('show');
         //$('.content').foggy(false);
 
         //app.unlockScroll();
@@ -145,6 +154,14 @@ app.createCountdownHTML = function(data) {
     var cd_div = document.createElement('div');
     cd_div.className = 'countdown';
 
+    var cd_menu = document.createElement('div');
+    cd_menu.className = 'countdown__menu';
+    cd_menu.innerHTML = '<div class="countdown__menu-icon"></div>' +
+                        '<div class="countdown__menu-dropdown">' +
+                        '<a href="#" class="edit-button blue-button button">edit</a>' +
+                        '<a href="#" class="delete-button red-button button">delete</a>'+
+                        '</div>';
+    cd_div.appendChild(cd_menu);
 
     var cd_image = document.createElement('img');
     cd_image.className = 'countdown__image';
