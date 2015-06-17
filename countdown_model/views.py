@@ -74,20 +74,26 @@ def update_countdown(request, id_string):
         response['error'] = 'Countdown not found, id_string: {}'.format(id_string)
         return HttpResponse(json.dumps(response), content_type='application/json')
     try:
-        form = CountdownForm(request.POST, instance=countdown)
+        countdown_dict = json.loads(countdown.json())
+        args = {}
+        for field in CountdownForm.Meta.fields:
+            if field != 'image':
+                args[field] = countdown_dict[field]
+        for key in request.POST:
+            if key in args:
+                args[key] = request.POST[key]
+        if len(request.FILES) != 0:
+            form = CountdownForm(request.POST, request.FILES, instance=countdown)
+        else:
+            form = CountdownForm(request.POST, instance=countdown)
         form.save()
         response['status'] = 200
         response['response'] = json.loads(countdown.json())
-        return HttpResponse(json.dumps(response), content_type='application/json')
-    except ValueError as e:
-        response['status'] = 400
-        response['error'] = str(e)
         return HttpResponse(json.dumps(response), content_type='application/json')
     except Exception as e:
         response['status'] = 400
         response['error'] = str(e)
         return HttpResponse(json.dumps(response), content_type='application/json')
-        
 
 def delete_countdown(request, id_string):
     response = {'status': None, 'error': None, 'response': None}
