@@ -16,6 +16,7 @@ class Countdown(models.Model):
     end_date = models.DateField(blank=True, null=True)
     end_time = models.TimeField(blank=True, null=True)
     id_string = models.CharField(max_length=100)
+    archived = models.BooleanField(default=False)
     output_fields = ['title', 'brief_description', 'image', 'end_date', 'end_time', 'id_string']
     output_fields_current_state = ['days', 'hours', 'minutes', 'seconds', 'complete']
     input_fields = copy.deepcopy(output_fields)
