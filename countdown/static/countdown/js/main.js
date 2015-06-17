@@ -69,9 +69,23 @@ var app = {};
 
 
 app.initialize = function () {
-    $('.user-menu').on('click', function(e){
+    $('.username').on('click', function(e){
         e.preventDefault();
-        $('.user-menu__dropdown', this).slideToggle('fast');
+        e.stopPropagation();
+        console.log('KAI :: username click');
+        $('.username-dropdown').toggleClass('show');
+    });
+
+    $('html').click(function() {
+        $('.username-dropdown').removeClass('show');
+        $('.modal__bg-wrapper').removeClass('show');
+        //$('.content').foggy(false);
+
+        //app.unlockScroll();
+    });
+
+    $('.username-dropdown').on('click', function(e){
+        e.stopPropagation();
     });
 
     $('.add-icon').on('click', function(e){
