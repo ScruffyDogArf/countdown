@@ -98,16 +98,20 @@ app.initialize = function () {
     });
 
     $('.add-icon').on('click', function(e){
-        e.preventDefault();
-        $('.modal__new-countdown').addClass('show');
+        e.stopPropagation();
+        $('.modal__bg-wrapper').addClass('show');
+        //$('.content').foggy({
+        //    blurRadius: 32,
+        //    opacity: 1,
+        //    cssFilterSupport: true
+        //});
+        //
+        //app.lockScroll();
     });
 
-    //$('.modal__new-countdown').on('click', function(e){
-    //    e.preventDefault();
-    //    if( e.target !== this )
-    //        return;
-    //    $('.modal__new-countdown').removeClass('show');
-    //});
+    $('.new-countdown-form__wrap').on('click', function(e){
+        e.stopPropagation();
+    });
 
 
     $.mask.definitions['1']='[0-1]';

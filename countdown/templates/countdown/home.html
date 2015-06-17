@@ -161,7 +161,8 @@
 </div> <!--END content-wrap -->
 
 
-<div class="modal__new-countdown">
+<div class="modal__bg-wrapper">
+    <div class="modal__bg"></div>
     <div class="new-countdown-form__wrap">
         <div class="new-countdown-form__padding">
             <h1>Create Countdown</h1>
@@ -170,7 +171,7 @@
                     {{ new_countdown_form }}
                 </table>
                 <div class="submit">
-                <input type="submit" value="submit">
+                    <input type="submit" value="submit">
                 </div>
             </form>
         </div>
@@ -216,6 +217,9 @@
 
 <script src="http://malsup.github.com/jquery.form.js"></script>
 <script src="{% static "countdown/js/jquery.pickmeup.min.js" %}"></script>
+<script src="{% static "countdown/js/jquery.maskedinput.min.js" %}"></script>
+
+
 <!--<script src="{% static "countdown/js/picedit.min.js" %}"></script>-->
 <script src="{% static "countdown/js/main.js" %}"></script>
 
