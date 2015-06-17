@@ -69,48 +69,8 @@ var app = {};
 
 
 app.initialize = function () {
-    $('.username').on('click', function(e){
-        e.preventDefault();
-        e.stopPropagation();
-        $('.username-dropdown').toggleClass('show');
-    });
 
-    $('.countdown__menu-icon').on('click', function(e){
-        e.preventDefault();
-        e.stopPropagation();
-        $('.countdown__menu').not($(this).parent()).removeClass('show');
-        $(this).parent().toggleClass('show');
-    });
-
-    $('html').click(function() {
-        $('.username-dropdown').removeClass('show');
-        $('.modal__bg-wrapper').removeClass('show');
-        $('.countdown__menu').removeClass('show');
-        $('.content').foggy(false);
-
-        app.unlockScroll();
-    });
-
-    $('.username-dropdown').on('click', function(e){
-        e.stopPropagation();
-    });
-
-    $('.add-icon').on('click', function(e){
-        e.stopPropagation();
-        $('.modal__bg-wrapper').addClass('show');
-        $('.content').foggy({
-            blurRadius: 32,
-            opacity: 1,
-            cssFilterSupport: true
-        });
-
-        app.lockScroll();
-    });
-
-    $('.new-countdown-form__wrap').on('click', function(e){
-        e.stopPropagation();
-    });
-
+    app.setupClickListeners();
 
     $.mask.definitions['1']='[0-1]';
     $.mask.definitions['2']='[0-2]';
@@ -158,6 +118,75 @@ app.initialize = function () {
 
     var numActiveCountdowns = $('.countdown__time').length;
 };
+
+
+
+app.setupClickListeners = function() {
+    $('.username').on('click', function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        $('.username-dropdown').toggleClass('show');
+    });
+
+    $('.countdown__menu-icon').on('click', function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        $('.countdown__menu').not($(this).parent()).removeClass('show');
+        $(this).parent().toggleClass('show');
+    });
+
+    $('.username-dropdown').on('click', function(e){
+        e.stopPropagation();
+    });
+
+    $('.add-icon').on('click', function(e){
+        e.stopPropagation();
+        $('.modal__bg-wrapper').addClass('show');
+        $('.content').foggy({
+            blurRadius: 32,
+            opacity: 1,
+            cssFilterSupport: true
+        });
+
+        app.lockScroll();
+    });
+
+    $('.new-countdown-form__wrap').on('click', function(e){
+        e.stopPropagation();
+    });
+
+    $('.delete-button').on('click', function(e){
+        e.preventDefault();
+
+        $.ajax({
+            type:'POST',
+            url: '/api/countdowns/delete/' + $(this).data('idstring'),
+            cache:false,
+            contentType: false,
+            processData: false,
+            success:function(data){
+                console.log("success");
+                console.log('KAI :: delete success', data);
+            },
+            error: function(data){
+                console.log("error");
+                console.log(data);
+            }
+        });
+
+    });
+
+    $('html').click(function() {
+        $('.username-dropdown').removeClass('show');
+        $('.modal__bg-wrapper').removeClass('show');
+        $('.countdown__menu').removeClass('show');
+        $('.content').foggy(false);
+
+        app.unlockScroll();
+    });
+};
+
+
 
 app.lockScroll = function() {
     var scrollPosition = [
