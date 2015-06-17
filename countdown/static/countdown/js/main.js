@@ -157,16 +157,18 @@ app.setupClickListeners = function() {
 
     $('.delete-button').on('click', function(e){
         e.preventDefault();
-
+        var idstring =$(this).data('idstring');
         $.ajax({
-            type:'POST',
-            url: '/api/countdowns/delete/' + $(this).data('idstring'),
+            type:'GET',
+            url: '/api/countdowns/delete/' + idstring,
             cache:false,
             contentType: false,
             processData: false,
             success:function(data){
                 console.log("success");
                 console.log('KAI :: delete success', data);
+                $('[data-id='+idstring +']').remove();
+                setTimeout(function(){app.setHeights()}, 1000);
             },
             error: function(data){
                 console.log("error");
