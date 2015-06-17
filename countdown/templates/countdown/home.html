@@ -75,12 +75,12 @@
 
 
                 {% for countdown in countdowns %}
-                    <div class="countdown">
+                    <div class="countdown" data-id="{{ countdown.id_string }}">
                         <div class="countdown__menu">
                             <div class="countdown__menu-icon"></div>
                             <div class="countdown__menu-dropdown">
-                                <a href="#" class="edit-button blue-button button">edit</a>
-                                <a href="#" class="delete-button red-button button">delete</a>
+                                <a href="#" class="edit-button blue-button button" data-idstring="{{ countdown.id_string }}">edit</a>
+                                <a href="#" class="delete-button red-button button" data-idstring="{{ countdown.id_string }}">delete</a>
                             </div>
                         </div>
                         <!--<img class="countdown__image" src="{% static "countdown/img/image-1.png" %}" alt="image">-->
